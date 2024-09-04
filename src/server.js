@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 
 const app = express();
 
@@ -13,6 +13,6 @@ app.get("/*", (_, res) => res.redirect("/"));
 const handleListen = () => console.log(`Listing on http://localhost:3000`);
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
 server.listen(3000, handleListen);
