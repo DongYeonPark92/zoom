@@ -1,7 +1,8 @@
 import http from "http";
 import { WebSocketServer } from "ws";
 import express from "express";
-import SocketIO from "socket.io";
+import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 
 const app = express();
 
@@ -14,7 +15,17 @@ app.get("/*", (req, res) => res.redirect("/"));
 const handleListen = () => console.log(`Listing on http://localhost:3000`);
 
 const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
+const wsServer = new Server(httpServer, {
+  cors: {
+    origin: ["https://admin.socket.io"],
+    credentials: true,
+  },
+});
+
+instrument(wsServer, {
+  auth: false,
+  mode: "development",
+});
 
 function publicRooms() {
   const {
@@ -54,7 +65,7 @@ wsServer.on("connection", (socket) => {
       socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1);
     });
   });
-  socket.on("disconnecting", () => {
+  socket.on("disconnect", () => {
     wsServer.sockets.emit("room_change", publicRooms());
   });
   socket.on("new_message", (msg, roomName, done) => {

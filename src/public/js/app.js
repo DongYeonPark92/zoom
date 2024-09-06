@@ -86,4 +86,4 @@ socket.on("room_change", (rooms) => {
     roomList.append(li);
   });
 });
-socket.on("disconnecting", console.log("Disconnected from wsServer"));
+socket.on("disconnect", console.log("Disconnected from wsServer"));
