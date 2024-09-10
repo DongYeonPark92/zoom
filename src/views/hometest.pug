@@ -9,16 +9,21 @@ html(lang="en")
         header 
             h1 DongYeon's ChatRoom
         main
+            div#nickname
+                form
+                    input(placeholder="Choose your nickname", required, type="text")
+                    button Save
             div#welcome
                 form
-                    input(placeholder="Room name" required, type="text")
+                    input(placeholder="Room name", required, type="text")
                     button Enter Room
-            div#call
-                div#myStream
-                    video#myFace(autoplay,playsinlinem width="400" height="400")
-                    button#mute Mute
-                    button#camera Turn Camera Off
-                    select#cameras
-                video#peerFace(autoplay,playsinlinem width="400" height="400")
+                h4 Open Rooms: 
+                ul
+            div#room
+                h3 
+                ul
+                form#msg
+                    input(placeholder="message", required, type="text")
+                    button Send
         script(src="/socket.io/socket.io.js")   
         script(src="/public/js/app.js") 
